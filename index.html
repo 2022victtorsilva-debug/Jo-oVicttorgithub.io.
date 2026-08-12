@@ -3,532 +3,1497 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Amor em Par | Loja especializada em presentes românticos e criativos para casais. (Projeto Demonstrativo)" />
   <title>Amor em Par | Presentes Especiais (Portfólio)</title>
-  
+
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-  
+
+  <!-- Configuração do Tailwind -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            rose: {
+              50: '#fff1f2',
+              100: '#ffe4e6',
+              200: '#fecdd3',
+              300: '#fda4af',
+              400: '#fb7185',
+              500: '#f43f5e',
+              600: '#e11d48',
+              700: '#be123c',
+              800: '#9f1239',
+              900: '#881337',
+            }
+          },
+          fontFamily: {
+            serif: ['Georgia', 'ui-serif', 'serif'],
+            sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- React -->
   <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-  
+
+  <!-- Babel -->
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <!-- Lucide -->
+  <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body class="bg-[#fffaf8] text-gray-800 font-sans selection:bg-rose-100 selection:text-rose-600">
+
+<body class="bg-[#fffaf8] text-gray-800 font-sans selection:bg-rose-200 selection:text-rose-900 overflow-x-hidden antialiased">
+
   <div id="root"></div>
 
   <script type="text/babel">
-    const { useState } = React;
 
-    // CONFIGURAÇÕES DE LINKS DEMONSTRATIVOS (Edite aqui facilmente)
+    const { useState, useEffect } = React;
+
+    /* =========================================================
+       CONFIGURAÇÕES
+    ========================================================= */
+
     const DEMO_CONFIG = {
-      whatsappNumber: '5500999999999', // Número fictício de demonstração
-      whatsappMessage: 'Olá! Vim pelo site de demonstração e gostaria de tirar uma dúvida.',
-      instagramUrl: 'https://instagram.com/seu_usuario_aqui', // Substitua pelo Instagram real do cliente
+      whatsappNumber: '5500999999999',
+      whatsappMessage: 'Olá! Vim pelo site de demonstração e gostaria de simular um atendimento.',
+      instagramUrl: 'https://instagram.com/',
     };
 
-    // BANCO DE DADOS DE PRODUTOS
+
+    /* =========================================================
+       BANCO DE PRODUTOS
+    ========================================================= */
+
     const PRODUCTS = [
+
+      /* ---------------------------------------------------------
+         PRODUTO 1 — PULSEIRAS MAGNÉTICAS
+         IMAGEM NOVA
+      --------------------------------------------------------- */
+
       {
         id: 1,
         title: 'Pulseiras Magnéticas de Casal',
         category: 'pulseiras',
-        description: 'Par de pulseiras ajustáveis com ímã de atração magnética. Feitas em aço inoxidável cirúrgico.',
+        description: 'Par de pulseiras ajustáveis com ímã de atração magnética em forma de coração. Feitas em aço inoxidável antialérgico.',
         price: 25.00,
-        image: 'https://images.unsplash.com/photo-1611591475155-42e6212e3428?auto=format&fit=crop&w=800&q=80',
+
+        image: 'https://down-br.img.susercontent.com/file/br-11134207-7r98q-lmm2hgge2e5z17',
+
         badge: 'Mais Vendido',
         badgeColor: 'bg-rose-500'
       },
+
+
+      /* ---------------------------------------------------------
+         PRODUTO 2
+      --------------------------------------------------------- */
+
       {
         id: 2,
         title: 'Urso de Pelúcia Carinhoso',
         category: 'pelucias',
-        description: 'Pelúcia super macia de 35cm com material antialérgico e laço aveludado.',
+        description: 'Pelúcia super macia de 35cm com material antialérgico e laço aveludado bordado.',
         price: 58.90,
+
         image: 'https://images.unsplash.com/photo-1559454403-b8fb88521f11?auto=format&fit=crop&w=800&q=80',
+
         badge: 'Fofo',
-        badgeColor: 'bg-amber-500'
+        badgeColor: 'bg-rose-400'
       },
+
+
+      /* ---------------------------------------------------------
+         PRODUTO 3
+      --------------------------------------------------------- */
+
       {
         id: 3,
         title: 'Buquê Luxo de Rosas Vermelhas',
         category: 'flores',
-        description: 'Arranjo com 12 rosas selecionadas e frescas. Acompanha caixa luxuosa e cartão personalizável.',
+        description: 'Arranjo clássico com 12 rosas selecionadas e frescas. Acompanha caixa premium e cartão.',
         price: 210.00,
+
         image: 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&w=800&q=80',
+
         badge: 'Premium',
         badgeColor: 'bg-rose-700'
       },
+
+
+      /* ---------------------------------------------------------
+         PRODUTO 4
+      --------------------------------------------------------- */
+
       {
         id: 4,
         title: 'Colares Sol e Lua (Par)',
         category: 'pulseiras',
         description: 'Par de colares em prata 925 com pingentes vazados de Sol e Lua que se complementam.',
         price: 45.00,
-        image: 'https://images.unsplash.com/photo-1599643478524-fb66f72200c8?auto=format&fit=crop&w=800&q=80',
+
+        image: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=800&q=80',
+
         badge: 'Novidade',
-        badgeColor: 'bg-purple-600'
+        badgeColor: 'bg-purple-500'
       },
+
+
+      /* ---------------------------------------------------------
+         PRODUTO 5 — CANECAS DE CASAL
+         IMAGEM NOVA
+      --------------------------------------------------------- */
+
       {
         id: 5,
         title: 'Canecas "O Par Perfeito"',
         category: 'personalizados',
-        description: 'Par de canecas em cerâmica de alta qualidade de 320ml. Resistentes ao micro-ondas.',
+        description: 'Conjunto com DUAS canecas de casal. As duas peças foram feitas para formar um par perfeito.',
         price: 55.00,
-        image: 'https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?auto=format&fit=crop&w=800&q=80',
-        badge: null
+
+        image: 'https://cf.shopee.com.br/file/5f844f01640137a6f84bd1feb57d3bdc',
+
+        badge: 'Presente Ideal',
+        badgeColor: 'bg-rose-600'
+      },
+
+
+      /* ---------------------------------------------------------
+         PRODUTO 6
+      --------------------------------------------------------- */
+
+      {
+        id: 6,
+        title: 'Quadro Personalizado Nosso Dia',
+        category: 'personalizados',
+        description: 'Quadro A4 com moldura em madeira exibindo o mapa estelar exato do dia e local do seu namoro.',
+        price: 89.90,
+
+        image: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=80',
+
+        badge: 'Exclusivo',
+        badgeColor: 'bg-gray-900'
+      }
+
+    ];
+
+
+    /* =========================================================
+       GALERIA
+    ========================================================= */
+
+    const GALLERY_IMAGES = [
+      {
+        id: 1,
+        url: 'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=800&q=80',
+        title: 'Pôr do Sol a Dois'
+      },
+      {
+        id: 2,
+        url: 'https://images.unsplash.com/photo-1522098635833-216c03d81fbe?auto=format&fit=crop&w=800&q=80',
+        title: 'Surpresa Especial'
+      },
+      {
+        id: 3,
+        url: 'https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=800&q=80',
+        title: 'Sorrisos Inesquecíveis'
+      },
+      {
+        id: 4,
+        url: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=800&q=80',
+        title: 'Detalhes que Encantam'
+      },
+      {
+        id: 5,
+        url: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80',
+        title: 'Amor Sincero'
       },
       {
         id: 6,
-        title: 'Quadro Personalizado do Nosso Dia',
-        category: 'personalizados',
-        description: 'Quadro A4 com moldura em madeira e o mapa das estrelas exato do dia do seu namoro.',
-        price: 89.90,
-        image: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=80',
-        badge: 'Exclusivo',
-        badgeColor: 'bg-rose-600'
+        url: 'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=800&q=80',
+        title: 'Jantar Romântico'
       }
     ];
 
-    const GALLERY_IMAGES = [
-      { id: 1, url: 'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=800&q=80', title: 'Casal no Pôr do Sol' },
-      { id: 2, url: 'https://images.unsplash.com/photo-1584445584405-b0b8c04ecad9?auto=format&fit=crop&w=800&q=80', title: 'Surpresa Especial' },
-      { id: 3, url: 'https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=800&q=80', title: 'Momentos Inesquecíveis' },
-      { id: 4, url: 'https://images.unsplash.com/photo-1611591475155-42e6212e3428?auto=format&fit=crop&w=800&q=80', title: 'Detalhes que Encantam' },
-      { id: 5, url: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80', title: 'Sorrisos Compartilhados' },
-      { id: 6, url: 'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=800&q=80', title: 'Jantar Romântico' },
-    ];
+
+    /* =========================================================
+       APP
+    ========================================================= */
 
     function App() {
+
       const [currentPath, setCurrentPath] = useState('/');
       const [cart, setCart] = useState([]);
       const [isCartOpen, setIsCartOpen] = useState(false);
       const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+
+      /* Scroll ao trocar página */
+
+      useEffect(() => {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      }, [currentPath]);
+
+
+      /* Navegação */
+
       const navigate = (path) => {
         setCurrentPath(path);
         setMobileMenuOpen(false);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
       };
 
+
+      /* Adicionar produto */
+
       const addToCart = (product) => {
+
         setCart(prev => {
+
           const exists = prev.find(item => item.id === product.id);
+
           if (exists) {
-            return prev.map(item => item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item);
+
+            return prev.map(item =>
+              item.id === product.id
+                ? {
+                    ...item,
+                    quantity: item.quantity + 1
+                  }
+                : item
+            );
+
           }
-          return [...prev, { ...product, quantity: 1 }];
+
+          return [
+            ...prev,
+            {
+              ...product,
+              quantity: 1
+            }
+          ];
+
         });
+
         setIsCartOpen(true);
       };
 
-      const cartTotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-      const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
-      const whatsappUrl = `https://wa.me/${DEMO_CONFIG.whatsappNumber}?text=${encodeURIComponent(DEMO_CONFIG.whatsappMessage)}`;
+      /* Atualizar quantidade */
+
+      const updateQuantity = (id, delta) => {
+
+        setCart(prev => {
+
+          return prev
+            .map(item => {
+
+              if (item.id === id) {
+
+                return {
+                  ...item,
+                  quantity: item.quantity + delta
+                };
+
+              }
+
+              return item;
+
+            })
+            .filter(item => item.quantity > 0);
+
+        });
+
+      };
+
+
+      /* Totais */
+
+      const cartTotal = cart.reduce(
+        (sum, item) => sum + (item.price * item.quantity),
+        0
+      );
+
+      const cartCount = cart.reduce(
+        (sum, item) => sum + item.quantity,
+        0
+      );
+
+
+      /* WhatsApp */
+
+      const whatsappUrl =
+        `https://wa.me/${DEMO_CONFIG.whatsappNumber}?text=${encodeURIComponent(DEMO_CONFIG.whatsappMessage)}`;
+
 
       return (
-        <div className="min-h-screen flex flex-col justify-between relative">
-          
-          {/* BOTÃO FLUTUANTE DO WHATSAPP */}
-          <a 
-            href={whatsappUrl} 
-            target="_blank" 
+
+        <div className="min-h-screen flex flex-col justify-between relative bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-rose-50/50 via-[#fffaf8] to-[#fffaf8]">
+
+
+          {/* =====================================================
+              BOTÃO WHATSAPP
+          ===================================================== */}
+
+          <a
+            href={whatsappUrl}
+            target="_blank"
             rel="noopener noreferrer"
-            title="Contato via WhatsApp (Demonstração)"
-            className="fixed bottom-6 right-6 z-50 bg-emerald-500 hover:bg-emerald-600 text-white p-3.5 rounded-full shadow-2xl transition duration-300 transform hover:scale-110 flex items-center gap-2"
+            title="Contato via WhatsApp"
+            aria-label="Abrir WhatsApp"
+            className="fixed bottom-6 right-6 z-40 bg-emerald-500 hover:bg-emerald-600 text-white p-3.5 rounded-full shadow-[0_8px_30px_rgb(16,185,129,0.3)] transition duration-300 transform hover:-translate-y-1 flex items-center gap-2"
           >
-            <svg className="w-7 h-7 fill-current" viewBox="0 0 24 24">
+
+            <svg
+              className="w-7 h-7 fill-current"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
               <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/>
             </svg>
-            <span className="hidden sm:inline font-bold text-sm">Fale Conosco</span>
+
+            <span className="hidden sm:inline font-bold text-sm tracking-wide pr-1">
+              Fale Conosco
+            </span>
+
           </a>
 
-          {/* HEADER */}
-          <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-rose-100 shadow-sm">
+
+          {/* =====================================================
+              HEADER
+          ===================================================== */}
+
+          <header className="sticky top-0 z-30 bg-white/90 backdrop-blur-md border-b border-rose-100 shadow-sm">
+
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
               <div className="flex items-center justify-between h-20">
-                <button onClick={() => navigate('/')} className="flex items-center space-x-2 text-left">
-                  <div className="w-10 h-10 rounded-full bg-rose-600 flex items-center justify-center text-white font-bold shadow-md">
-                    ♥
+
+
+                {/* LOGO */}
+
+                <button
+                  onClick={() => navigate('/')}
+                  className="flex items-center space-x-2 text-left group"
+                >
+
+                  <div className="w-10 h-10 rounded-full bg-rose-600 flex items-center justify-center text-white font-bold shadow-md shadow-rose-200 group-hover:scale-105 transition-transform">
+
+                    <svg
+                      className="w-5 h-5 fill-current"
+                      viewBox="0 0 24 24"
+                    >
+                      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+
                   </div>
+
                   <div>
+
                     <span className="font-serif text-2xl font-bold tracking-tight text-gray-900 block leading-none">
                       Amor<span className="text-rose-600">emPar</span>
                     </span>
-                    <span className="text-[10px] uppercase tracking-widest text-gray-400 font-semibold">Portfólio Demo</span>
+
+                    <span className="text-[9px] uppercase tracking-widest text-gray-400 font-bold block mt-1">
+                      Portfólio Demo
+                    </span>
+
                   </div>
+
                 </button>
 
+
                 {/* NAV DESKTOP */}
+
                 <nav className="hidden md:flex items-center space-x-8 font-medium">
-                  <button onClick={() => navigate('/')} className={`py-1 border-b-2 text-sm font-semibold transition ${currentPath === '/' ? 'text-rose-600 border-rose-600' : 'text-gray-600 border-transparent hover:text-rose-600'}`}>Início</button>
-                  <button onClick={() => navigate('/sobre')} className={`py-1 border-b-2 text-sm font-semibold transition ${currentPath === '/sobre' ? 'text-rose-600 border-rose-600' : 'text-gray-600 border-transparent hover:text-rose-600'}`}>Sobre Nós</button>
-                  <button onClick={() => navigate('/servicos')} className={`py-1 border-b-2 text-sm font-semibold transition ${currentPath === '/servicos' ? 'text-rose-600 border-rose-600' : 'text-gray-600 border-transparent hover:text-rose-600'}`}>Coleção</button>
-                  <button onClick={() => navigate('/galeria')} className={`py-1 border-b-2 text-sm font-semibold transition ${currentPath === '/galeria' ? 'text-rose-600 border-rose-600' : 'text-gray-600 border-transparent hover:text-rose-600'}`}>Galeria</button>
-                  <button onClick={() => navigate('/contato')} className={`py-1 border-b-2 text-sm font-semibold transition ${currentPath === '/contato' ? 'text-rose-600 border-rose-600' : 'text-gray-600 border-transparent hover:text-rose-600'}`}>Contato</button>
+
+                  {[
+                    '/',
+                    '/sobre',
+                    '/servicos',
+                    '/galeria',
+                    '/contato'
+                  ].map(path => {
+
+                    const labels = {
+                      '/': 'Início',
+                      '/sobre': 'Sobre Nós',
+                      '/servicos': 'Coleção',
+                      '/galeria': 'Galeria',
+                      '/contato': 'Contato'
+                    };
+
+                    return (
+
+                      <button
+                        key={path}
+                        onClick={() => navigate(path)}
+                        className={`py-1 border-b-2 text-sm font-bold tracking-wide transition-colors ${
+                          currentPath === path
+                            ? 'text-rose-600 border-rose-600'
+                            : 'text-gray-600 border-transparent hover:text-rose-600'
+                        }`}
+                      >
+                        {labels[path]}
+                      </button>
+
+                    );
+
+                  })}
+
                 </nav>
 
-                {/* CARRINHO E MENU MOBILE */}
+
+                {/* CARRINHO */}
+
                 <div className="flex items-center space-x-4">
-                  <button onClick={() => setIsCartOpen(true)} className="relative p-2.5 rounded-full text-gray-700 hover:bg-rose-50 transition border border-gray-200">
-                    🛒
+
+                  <button
+                    onClick={() => setIsCartOpen(true)}
+                    className="relative p-2.5 rounded-full text-gray-700 hover:bg-rose-50 hover:text-rose-600 transition border border-gray-200"
+                    aria-label="Abrir Carrinho"
+                  >
+
+                    <svg
+                      className="w-5 h-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
+                      />
+                    </svg>
+
                     {cartCount > 0 && (
-                      <span className="absolute -top-1 -right-1 bg-rose-600 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+
+                      <span className="absolute -top-1 -right-1 bg-rose-600 text-white text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center">
                         {cartCount}
                       </span>
+
                     )}
+
                   </button>
-                  <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="md:hidden p-2 text-gray-600 text-xl">
-                    ☰
+
+
+                  {/* MENU MOBILE */}
+
+                  <button
+                    onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                    className="md:hidden p-2 text-gray-600"
+                    aria-label="Alternar Menu"
+                  >
+
+                    <svg
+                      className="w-6 h-6"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+
+                      {mobileMenuOpen
+
+                        ? <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M6 18L18 6M6 6l12 12"
+                          />
+
+                        : <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M4 6h16M4 12h16M4 18h16"
+                          />
+
+                      }
+
+                    </svg>
+
                   </button>
+
                 </div>
+
               </div>
+
             </div>
 
-            {/* NAV MOBILE */}
+
+            {/* MENU MOBILE */}
+
             {mobileMenuOpen && (
-              <div className="md:hidden bg-white border-b border-rose-100 px-4 py-4 space-y-2">
-                <button onClick={() => navigate('/')} className="block w-full text-left py-2 font-semibold text-gray-700">Início</button>
-                <button onClick={() => navigate('/sobre')} className="block w-full text-left py-2 font-semibold text-gray-700">Sobre Nós</button>
-                <button onClick={() => navigate('/servicos')} className="block w-full text-left py-2 font-semibold text-gray-700">Coleção</button>
-                <button onClick={() => navigate('/galeria')} className="block w-full text-left py-2 font-semibold text-gray-700">Galeria</button>
-                <button onClick={() => navigate('/contato')} className="block w-full text-left py-2 font-semibold text-gray-700">Contato</button>
-              </div>
+
+              <nav className="md:hidden bg-white border-b border-rose-100 px-4 py-4 space-y-2 shadow-lg absolute w-full left-0">
+
+                {[
+                  '/',
+                  '/sobre',
+                  '/servicos',
+                  '/galeria',
+                  '/contato'
+                ].map(path => {
+
+                  const labels = {
+                    '/': 'Início',
+                    '/sobre': 'Sobre Nós',
+                    '/servicos': 'Coleção',
+                    '/galeria': 'Galeria',
+                    '/contato': 'Contato'
+                  };
+
+                  return (
+
+                    <button
+                      key={path}
+                      onClick={() => navigate(path)}
+                      className={`block w-full text-left py-3 px-4 rounded-xl font-bold transition-colors ${
+                        currentPath === path
+                          ? 'bg-rose-50 text-rose-600'
+                          : 'text-gray-700 hover:bg-gray-50'
+                      }`}
+                    >
+                      {labels[path]}
+                    </button>
+
+                  );
+
+                })}
+
+              </nav>
+
             )}
+
           </header>
 
-          {/* CONTEÚDO DAS PÁGINAS */}
+
+          {/* =====================================================
+              CONTEÚDO
+          ===================================================== */}
+
           <main className="flex-grow">
-            {/* PÁGINA: INÍCIO */}
+
+
+            {/* ===================================================
+                INÍCIO
+            =================================================== */}
+
             {currentPath === '/' && (
-              <div className="space-y-16 pb-16">
-                <section className="bg-gradient-to-br from-rose-50 via-white to-rose-100 py-16 md:py-24 border-b border-rose-100">
-                  <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                    <div className="space-y-6 text-center md:text-left">
-                      <span className="text-xs font-bold uppercase tracking-wider text-rose-600 bg-rose-100 px-3 py-1 rounded-full">Projeto Demonstrativo</span>
-                      <h1 className="font-serif text-4xl sm:text-6xl font-bold text-gray-900 leading-tight">Eternize seu amor com gestos inesquecíveis.</h1>
-                      <p className="text-lg text-gray-600">Presentes pensados exclusivamente para fortalecer conexões e criar memórias marcantes a dois.</p>
-                      <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                        <button onClick={() => navigate('/servicos')} className="px-8 py-4 bg-rose-600 hover:bg-rose-700 text-white font-bold rounded-full shadow-lg transition">
-                          Ver Coleção Completa &rarr;
+
+              <div className="pb-20">
+
+                <section className="relative py-16 md:py-28 overflow-hidden">
+
+                  <div className="absolute top-0 left-0 w-full h-full bg-rose-50/30 -z-10"></div>
+
+                  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+
+
+                    <div className="space-y-6 text-center md:text-left z-10">
+
+                      <span className="inline-block text-xs font-bold uppercase tracking-widest text-rose-600 bg-white border border-rose-100 shadow-sm px-4 py-1.5 rounded-full">
+                        Projeto Demonstrativo
+                      </span>
+
+                      <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
+                        Eternize seu amor com <span className="text-rose-600">gestos inesquecíveis.</span>
+                      </h1>
+
+                      <p className="text-lg text-gray-600 max-w-lg mx-auto md:mx-0">
+                        Presentes pensados exclusivamente para fortalecer conexões, surpreender quem você ama e criar memórias marcantes a dois.
+                      </p>
+
+                      <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start pt-2">
+
+                        <button
+                          onClick={() => navigate('/servicos')}
+                          className="px-8 py-4 bg-rose-600 hover:bg-rose-700 text-white font-bold rounded-full shadow-lg shadow-rose-200 transition-all"
+                        >
+                          Ver Coleção Completa
                         </button>
-                        <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="px-8 py-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-full shadow-lg transition flex items-center justify-center gap-2">
-                          Atendimento WhatsApp
-                        </a>
+
                       </div>
+
                     </div>
-                    <div className="relative">
-                      <img 
-                        src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=800&q=80" 
-                        alt="Casal apaixonado" 
-                        className="rounded-3xl shadow-2xl w-full aspect-square object-cover"
-                        onError={(e) => { e.target.src = 'https://via.placeholder.com/600x600?text=Amor+em+Par'; }}
+
+
+                    <div className="relative z-10 px-4 md:px-0">
+
+                      <div className="absolute inset-0 bg-rose-200 rounded-[2.5rem] transform rotate-3 scale-105 -z-10 opacity-50"></div>
+
+                      <img
+                        src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=800&q=80"
+                        alt="Casal apaixonado sorrindo"
+                        className="rounded-[2.5rem] shadow-xl w-full aspect-[4/3] object-cover border-4 border-white"
                       />
+
                     </div>
+
                   </div>
+
                 </section>
 
-                <section className="max-w-7xl mx-auto px-4">
+
+                {/* DESTAQUES */}
+
+                <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12">
+
                   <div className="text-center mb-12">
-                    <h2 className="font-serif text-3xl md:text-4xl font-bold">Destaques da Nossa Coleção</h2>
-                    <p className="text-gray-600 mt-2">Escolha o presente perfeito para celebrar quem você ama</p>
+
+                    <h2 className="font-serif text-3xl md:text-4xl font-bold text-gray-900">
+                      Destaques da Nossa Coleção
+                    </h2>
+
+                    <p className="text-gray-600 mt-3 font-medium">
+                      Os queridinhos dos casais apaixonados
+                    </p>
+
                   </div>
+
+
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+
                     {PRODUCTS.slice(0, 3).map(p => (
-                      <div key={p.id} className="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-md transition flex flex-col justify-between">
-                        <div className="relative">
-                          <img 
-                            src={p.image} 
-                            alt={p.title} 
-                            className="w-full aspect-square object-cover" 
-                            onError={(e) => { e.target.src = 'https://via.placeholder.com/400x400?text=Produto+Demo'; }}
+
+                      <div
+                        key={p.id}
+                        className="bg-white rounded-3xl border border-rose-50 overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300 flex flex-col justify-between group"
+                      >
+
+                        <div className="relative aspect-square overflow-hidden bg-gray-50">
+
+                          <img
+                            src={p.image}
+                            alt={`Foto do produto: ${p.title}`}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                            loading="lazy"
+                            onError={(e) => {
+                              e.target.src = 'https://via.placeholder.com/400x400?text=Produto+Demo';
+                            }}
                           />
+
                           {p.badge && (
-                            <span className={`absolute top-3 right-3 text-white text-xs font-bold px-2.5 py-1 rounded-full ${p.badgeColor}`}>
+
+                            <span className={`absolute top-4 right-4 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-sm ${p.badgeColor}`}>
                               {p.badge}
                             </span>
+
                           )}
+
                         </div>
+
+
                         <div className="p-6 flex-grow flex flex-col justify-between">
+
                           <div>
-                            <h3 className="font-serif text-xl font-bold">{p.title}</h3>
-                            <p className="text-gray-600 text-sm mt-2">{p.description}</p>
+
+                            <h3 className="font-serif text-xl font-bold text-gray-900">
+                              {p.title}
+                            </h3>
+
+                            <p className="text-gray-600 text-sm mt-2 line-clamp-2">
+                              {p.description}
+                            </p>
+
                           </div>
-                          <div className="mt-6 flex justify-between items-center pt-4 border-t border-gray-50">
-                            <span className="text-xl font-bold text-gray-900">R$ {p.price.toFixed(2)}</span>
-                            <button onClick={() => addToCart(p)} className="bg-rose-600 hover:bg-rose-700 text-white px-4 py-2 rounded-xl text-sm font-bold transition">
+
+
+                          <div className="mt-6 flex justify-between items-center pt-4 border-t border-rose-50">
+
+                            <span className="text-2xl font-bold text-rose-600">
+                              R$ {p.price.toFixed(2).replace('.', ',')}
+                            </span>
+
+                            <button
+                              onClick={() => addToCart(p)}
+                              className="bg-gray-900 hover:bg-rose-600 text-white px-5 py-2.5 rounded-xl text-sm font-bold transition-colors"
+                            >
                               Adicionar
                             </button>
+
                           </div>
+
                         </div>
+
                       </div>
+
                     ))}
+
                   </div>
+
+
+                  <div className="text-center mt-12">
+
+                    <button
+                      onClick={() => navigate('/servicos')}
+                      className="text-rose-600 font-bold hover:text-rose-800 underline underline-offset-4"
+                    >
+                      Ver todos os produtos da loja
+                    </button>
+
+                  </div>
+
                 </section>
+
               </div>
+
             )}
 
-            {/* PÁGINA: SOBRE NÓS */}
+
+            {/* ===================================================
+                SOBRE
+            =================================================== */}
+
             {currentPath === '/sobre' && (
-              <div className="py-12 max-w-7xl mx-auto px-4 space-y-16">
-                
-                {/* CABEÇALHO */}
+
+              <div className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-20 pb-24">
+
                 <div className="text-center space-y-4 max-w-3xl mx-auto">
-                  <span className="text-xs font-bold uppercase tracking-wider text-rose-600 bg-rose-100 px-3 py-1 rounded-full">Nossa Trajetória</span>
-                  <h1 className="font-serif text-4xl sm:text-5xl font-bold text-gray-900">Conectando Histórias através de Presentes</h1>
-                  <p className="text-gray-600 text-lg">Criamos a Amor em Par para transformar momentos simples em lembranças inesquecíveis.</p>
+
+                  <span className="text-xs font-bold uppercase tracking-widest text-rose-600 bg-rose-50 border border-rose-100 px-4 py-1.5 rounded-full">
+                    Nossa Trajetória
+                  </span>
+
+                  <h1 className="font-serif text-4xl sm:text-5xl font-bold text-gray-900">
+                    Conectando Histórias através de Presentes
+                  </h1>
+
+                  <p className="text-gray-600 text-lg">
+                    Criamos a Amor em Par para transformar momentos simples em lembranças tangíveis que duram para sempre.
+                  </p>
+
                 </div>
 
-                {/* HISTÓRIA E FOTO */}
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                  <div className="space-y-4 text-gray-600 leading-relaxed">
-                    <h2 className="font-serif text-2xl font-bold text-gray-900">Como Tudo Começou</h2>
-                    <p>A <strong>Amor em Par</strong> nasceu do desejo sincero de ajudar casais a expressarem seus sentimentos de forma tangível e emocionante.</p>
-                    <p>Percebemos que encontrar o presente certo para datas especiais nem sempre é fácil. Por isso, selecionamos e desenvolvemos produtos que unem elegância, qualidade impecável e um profundo significado afetivo.</p>
-                    <p>Cada item do nosso catálogo é pensado como um símbolo de união, carinho e cumplicidade.</p>
+
+                  <div className="space-y-5 text-gray-600 leading-relaxed text-lg">
+
+                    <h2 className="font-serif text-3xl font-bold text-gray-900 mb-6">
+                      Como Tudo Começou
+                    </h2>
+
+                    <p>
+                      A <strong>Amor em Par</strong> nasceu do desejo sincero de ajudar casais a expressarem seus sentimentos de forma romântica, sem perder a elegância.
+                    </p>
+
+                    <p>
+                      Percebemos que encontrar o presente certo para datas especiais nem sempre é fácil.
+                    </p>
+
+                    <p>
+                      Cada item do nosso catálogo é pensado como um símbolo de união, carinho e cumplicidade.
+                    </p>
+
                   </div>
-                  <img 
-                    src="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=800&q=80" 
-                    alt="História da Empresa" 
-                    className="rounded-2xl shadow-lg w-full aspect-video object-cover"
-                    onError={(e) => { e.target.src = 'https://via.placeholder.com/600x400?text=Sobre+Nós'; }}
-                  />
+
+
+                  <div className="relative">
+
+                    <div className="absolute inset-0 bg-rose-100 rounded-3xl transform -rotate-3 scale-105 -z-10"></div>
+
+                    <img
+                      src="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=800&q=80"
+                      alt="Casal representando a história da marca"
+                      className="rounded-3xl shadow-lg w-full aspect-video object-cover border-4 border-white"
+                    />
+
+                  </div>
+
                 </div>
 
-                {/* MISSÃO, VISÃO E VALORES */}
+
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                  <div className="bg-white p-8 rounded-2xl border border-rose-100 shadow-sm space-y-3">
-                    <div className="w-12 h-12 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center font-bold text-xl">🎯</div>
-                    <h3 className="font-serif text-xl font-bold text-gray-900">Nossa Missão</h3>
-                    <p className="text-gray-600 text-sm">Oferecer produtos de alta qualidade que fortaleçam conexões afetivas e celebrem o amor em todas as suas formas.</p>
+
+                  <div className="bg-white p-8 rounded-3xl border border-rose-100 shadow-sm space-y-4">
+
+                    <div className="w-14 h-14 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center text-2xl">
+                      🎯
+                    </div>
+
+                    <h3 className="font-serif text-2xl font-bold text-gray-900">
+                      Nossa Missão
+                    </h3>
+
+                    <p className="text-gray-600">
+                      Oferecer produtos de alta qualidade que fortaleçam conexões afetivas.
+                    </p>
+
                   </div>
-                  <div className="bg-white p-8 rounded-2xl border border-rose-100 shadow-sm space-y-3">
-                    <div className="w-12 h-12 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center font-bold text-xl">👁️</div>
-                    <h3 className="font-serif text-xl font-bold text-gray-900">Nossa Visão</h3>
-                    <p className="text-gray-600 text-sm">Ser referência nacional em presentes afetivos para casais, reconhecida pela excelência no atendimento e inovação.</p>
+
+
+                  <div className="bg-white p-8 rounded-3xl border border-rose-100 shadow-sm space-y-4">
+
+                    <div className="w-14 h-14 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center text-2xl">
+                      👁️
+                    </div>
+
+                    <h3 className="font-serif text-2xl font-bold text-gray-900">
+                      Nossa Visão
+                    </h3>
+
+                    <p className="text-gray-600">
+                      Ser uma marca lembrada pelo encanto e pelo atendimento.
+                    </p>
+
                   </div>
-                  <div className="bg-white p-8 rounded-2xl border border-rose-100 shadow-sm space-y-3">
-                    <div className="w-12 h-12 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center font-bold text-xl">⭐</div>
-                    <h3 className="font-serif text-xl font-bold text-gray-900">Nossos Valores</h3>
-                    <p className="text-gray-600 text-sm">Empatia, qualidade nos detalhes, respeito ao cliente, transparência e compromisso com a satisfação total.</p>
+
+
+                  <div className="bg-white p-8 rounded-3xl border border-rose-100 shadow-sm space-y-4">
+
+                    <div className="w-14 h-14 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center text-2xl">
+                      ⭐
+                    </div>
+
+                    <h3 className="font-serif text-2xl font-bold text-gray-900">
+                      Nossos Valores
+                    </h3>
+
+                    <p className="text-gray-600">
+                      Empatia, qualidade, diversidade, transparência e compromisso.
+                    </p>
+
                   </div>
+
                 </div>
 
-                {/* SEÇÃO DO CEO (DEMONSTRATIVA / FICTÍCIA) */}
-                <div className="bg-white rounded-3xl p-8 sm:p-12 border border-rose-100 shadow-sm">
-                  <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+
+                {/* CEO */}
+
+                <div className="bg-white rounded-[2.5rem] p-8 sm:p-14 border border-rose-100 shadow-sm">
+
+                  <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10 items-center">
+
                     <div className="text-center">
-                      <img 
-                        src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80" 
-                        alt="CEO / Fundador (Ilustrativo)" 
-                        className="w-48 h-48 rounded-full object-cover mx-auto shadow-md border-4 border-rose-100"
-                        onError={(e) => { e.target.src = 'https://via.placeholder.com/200x200?text=Foto+CEO'; }}
+
+                      <img
+                        src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80"
+                        alt="Foto ilustrativa do Fundador"
+                        className="w-48 h-48 sm:w-56 sm:h-56 rounded-full object-cover mx-auto shadow-lg border-4 border-white"
                       />
-                      <span className="text-[10px] uppercase text-gray-400 mt-2 block font-medium">Imagem Ilustrativa / Fictícia</span>
+
+                      <span className="text-[10px] uppercase text-gray-400 mt-3 block font-bold tracking-wider">
+                        Imagem Ilustrativa
+                      </span>
+
                     </div>
-                    <div className="md:col-span-2 space-y-4 text-center md:text-left">
-                      <span className="text-xs font-bold uppercase tracking-wider text-rose-600 bg-rose-50 px-3 py-1 rounded-full">Liderança</span>
-                      <h2 className="font-serif text-3xl font-bold text-gray-900">Gabriel Silva (Nome Fictício)</h2>
-                      <p className="text-rose-600 font-semibold text-sm">Fundador e Diretor Criativo</p>
-                      <p className="text-gray-600 text-sm leading-relaxed">
-                        "Acredito que os melhores presentes não são apenas objetos, mas sim pontes que conectam corações e eternizam lembranças. Nosso compromisso diário é garantir que cada caixa entregue leve consigo todo o carinho e cuidado que o seu amor merece."
+
+
+                    <div className="md:col-span-2 space-y-5 text-center md:text-left">
+
+                      <span className="text-xs font-bold uppercase tracking-widest text-rose-600 bg-rose-50 px-3 py-1 rounded-full">
+                        Liderança
+                      </span>
+
+                      <h2 className="font-serif text-3xl sm:text-4xl font-bold text-gray-900">
+                        Gabriel Silva <span className="text-lg font-normal text-gray-500">(Fictício)</span>
+                      </h2>
+
+                      <p className="text-rose-600 font-bold text-sm tracking-wide uppercase">
+                        Fundador e Diretor Criativo
                       </p>
-                      <p className="text-xs text-gray-400 italic">
-                        * Esta seção destina-se à demonstração de portfólio. As informações e imagens do fundador real do seu cliente poderão ser facilmente substituídas aqui.
+
+                      <p className="text-gray-700 text-lg leading-relaxed italic">
+                        "Acredito que os melhores presentes não são apenas objetos, mas sim pontes que conectam corações."
                       </p>
+
                     </div>
+
                   </div>
+
                 </div>
 
               </div>
+
             )}
 
-            {/* PÁGINA: COLEÇÃO COMPLETA */}
+
+            {/* ===================================================
+                COLEÇÃO
+            =================================================== */}
+
             {currentPath === '/servicos' && (
-              <div className="py-12 max-w-7xl mx-auto px-4 space-y-8">
-                <div className="text-center space-y-2">
-                  <h1 className="font-serif text-4xl font-bold">Nossa Coleção Completa</h1>
-                  <p className="text-gray-600">Explore todos os nossos presentes exclusivos com garantia de qualidade</p>
+
+              <div className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 pb-24">
+
+                <div className="text-center space-y-4">
+
+                  <h1 className="font-serif text-4xl sm:text-5xl font-bold text-gray-900">
+                    Nossa Coleção Completa
+                  </h1>
+
+                  <p className="text-gray-600 text-lg">
+                    Presentes de alta qualidade embalados com amor.
+                  </p>
+
                 </div>
+
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+
                   {PRODUCTS.map(p => (
-                    <div key={p.id} className="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm flex flex-col justify-between hover:shadow-md transition">
-                      <div className="relative">
-                        <img 
-                          src={p.image} 
-                          alt={p.title} 
-                          className="w-full aspect-square object-cover" 
-                          onError={(e) => { e.target.src = 'https://via.placeholder.com/400x400?text=Produto+Demo'; }}
+
+                    <div
+                      key={p.id}
+                      className="bg-white rounded-3xl border border-rose-50 overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300 flex flex-col justify-between group"
+                    >
+
+                      <div className="relative aspect-square overflow-hidden bg-gray-50">
+
+                        <img
+                          src={p.image}
+                          alt={`Foto de ${p.title}`}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                          loading="lazy"
+                          onError={(e) => {
+                            e.target.src = 'https://via.placeholder.com/400x400?text=Produto+Demo';
+                          }}
                         />
+
                         {p.badge && (
-                          <span className={`absolute top-3 right-3 text-white text-xs font-bold px-2.5 py-1 rounded-full ${p.badgeColor}`}>
+
+                          <span className={`absolute top-4 right-4 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-sm ${p.badgeColor}`}>
                             {p.badge}
                           </span>
+
                         )}
+
                       </div>
-                      <div className="p-6 space-y-2 flex-grow">
-                        <h3 className="font-serif text-xl font-bold">{p.title}</h3>
-                        <p className="text-gray-600 text-sm">{p.description}</p>
+
+
+                      <div className="p-6 space-y-3 flex-grow">
+
+                        <h3 className="font-serif text-xl font-bold text-gray-900 leading-tight">
+                          {p.title}
+                        </h3>
+
+                        <p className="text-gray-600 text-sm leading-relaxed">
+                          {p.description}
+                        </p>
+
                       </div>
-                      <div className="p-6 pt-0 flex justify-between items-center">
-                        <span className="text-2xl font-bold text-gray-900">R$ {p.price.toFixed(2)}</span>
-                        <button onClick={() => addToCart(p)} className="bg-rose-600 hover:bg-rose-700 text-white px-4 py-2 rounded-xl font-bold transition">
+
+
+                      <div className="p-6 pt-0 flex justify-between items-center border-t border-rose-50 mt-4">
+
+                        <span className="text-2xl font-bold text-rose-600">
+                          R$ {p.price.toFixed(2).replace('.', ',')}
+                        </span>
+
+                        <button
+                          onClick={() => addToCart(p)}
+                          className="bg-gray-900 hover:bg-rose-600 text-white px-5 py-2.5 rounded-xl font-bold transition-colors"
+                        >
                           + Adicionar
                         </button>
+
                       </div>
+
                     </div>
+
                   ))}
+
                 </div>
+
               </div>
+
             )}
 
-            {/* PÁGINA: GALERIA */}
+
+            {/* ===================================================
+                GALERIA
+            =================================================== */}
+
             {currentPath === '/galeria' && (
-              <div className="py-12 max-w-7xl mx-auto px-4 space-y-8">
-                <div className="text-center space-y-2">
-                  <h1 className="font-serif text-4xl font-bold">Galeria de Momentos</h1>
-                  <p className="text-gray-600">Fotos reais de clientes e inspirações para o seu presente</p>
+
+              <div className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 pb-24">
+
+                <div className="text-center space-y-4">
+
+                  <h1 className="font-serif text-4xl sm:text-5xl font-bold text-gray-900">
+                    Galeria de Momentos
+                  </h1>
+
+                  <p className="text-gray-600 text-lg">
+                    Histórias reais, sorrisos sinceros e a materialização do amor.
+                  </p>
+
                 </div>
+
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+
                   {GALLERY_IMAGES.map(img => (
-                    <div key={img.id} className="group aspect-square rounded-2xl overflow-hidden shadow-sm relative bg-gray-100">
-                      <img 
-                        src={img.url} 
-                        alt={img.title} 
-                        className="w-full h-full object-cover group-hover:scale-105 transition duration-300" 
-                        onError={(e) => { e.target.src = 'https://via.placeholder.com/400x400?text=Imagem+Galeria'; }}
+
+                    <div
+                      key={img.id}
+                      className="group aspect-square rounded-3xl overflow-hidden shadow-sm relative bg-rose-50 border border-rose-100 cursor-pointer"
+                    >
+
+                      <img
+                        src={img.url}
+                        alt={`Galeria: ${img.title}`}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                        loading="lazy"
+                        onError={(e) => {
+                          e.target.src = 'https://via.placeholder.com/400x400?text=Imagem+Galeria';
+                        }}
                       />
-                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-end p-4 text-white">
-                        <span className="font-semibold">{img.title}</span>
+
+                      <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 via-gray-900/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+
+                        <span className="text-white font-serif font-bold text-xl tracking-wide">
+                          {img.title}
+                        </span>
+
                       </div>
+
                     </div>
+
                   ))}
+
                 </div>
+
               </div>
+
             )}
 
-            {/* PÁGINA: CONTATO */}
+
+            {/* ===================================================
+                CONTATO
+            =================================================== */}
+
             {currentPath === '/contato' && (
-              <div className="py-12 max-w-4xl mx-auto px-4 space-y-8">
-                <div className="text-center space-y-2">
-                  <h1 className="font-serif text-4xl font-bold">Entre em Contato</h1>
-                  <p className="text-gray-600">Tire suas dúvidas ou faça seu pedido personalizado diretamente conosco</p>
+
+              <div className="py-16 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 pb-24">
+
+                <div className="text-center space-y-4">
+
+                  <h1 className="font-serif text-4xl sm:text-5xl font-bold text-gray-900">
+                    Fale Conosco
+                  </h1>
+
+                  <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+                    Estamos aqui para tirar dúvidas sobre os produtos.
+                  </p>
+
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                  
-                  {/* CANAIS DE CONTATO */}
-                  <div className="space-y-4">
-                    <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="block p-6 bg-emerald-50 rounded-2xl border border-emerald-100 text-emerald-800 hover:bg-emerald-100 transition">
-                      <h3 className="font-bold mb-1">WhatsApp Demo</h3>
-                      <p className="text-xs text-emerald-600">Atendimento rápido por mensagem</p>
-                      <span className="text-sm font-semibold mt-2 inline-block">Clique para abrir &rarr;</span>
+
+
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+
+                  <div className="space-y-6 lg:col-span-1">
+
+                    <a
+                      href={whatsappUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block p-8 bg-emerald-50 rounded-3xl border border-emerald-100 text-emerald-900 hover:bg-emerald-100 transition-all"
+                    >
+
+                      <h3 className="font-serif font-bold text-xl mb-1">
+                        WhatsApp (Demo)
+                      </h3>
+
+                      <p className="text-sm text-emerald-700 font-medium">
+                        Atendimento rápido por mensagem
+                      </p>
+
                     </a>
 
-                    <a href={DEMO_CONFIG.instagramUrl} target="_blank" rel="noopener noreferrer" className="block p-6 bg-rose-50 rounded-2xl border border-rose-100 text-rose-800 hover:bg-rose-100 transition">
-                      <h3 className="font-bold mb-1">Instagram Demo</h3>
-                      <p className="text-xs text-rose-600">Siga nossas novidades no perfil</p>
-                      <span className="text-sm font-semibold mt-2 inline-block">@amor_em_par_demo &rarr;</span>
+
+                    <a
+                      href={DEMO_CONFIG.instagramUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block p-8 bg-rose-50 rounded-3xl border border-rose-100 text-rose-900 hover:bg-rose-100 transition-all"
+                    >
+
+                      <h3 className="font-serif font-bold text-xl mb-1">
+                        Instagram (Demo)
+                      </h3>
+
+                      <p className="text-sm text-rose-700 font-medium">
+                        Siga nossas novidades no perfil
+                      </p>
+
                     </a>
+
                   </div>
 
-                  {/* FORMULÁRIO */}
-                  <div className="md:col-span-2 bg-white p-8 rounded-2xl border border-gray-100 shadow-sm space-y-4">
-                    <div>
-                      <label className="block text-xs font-bold uppercase text-gray-600 mb-1">Seu Nome</label>
-                      <input type="text" className="w-full border rounded-lg p-3 outline-none focus:ring-2 focus:ring-rose-500" placeholder="Ex: Maria Silva" />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-bold uppercase text-gray-600 mb-1">Seu E-mail</label>
-                      <input type="email" className="w-full border rounded-lg p-3 outline-none focus:ring-2 focus:ring-rose-500" placeholder="maria@email.com" />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-bold uppercase text-gray-600 mb-1">Mensagem</label>
-                      <textarea rows="4" className="w-full border rounded-lg p-3 outline-none focus:ring-2 focus:ring-rose-500" placeholder="Como podemos te ajudar?"></textarea>
-                    </div>
-                    <button onClick={() => alert('Mensagem enviada com sucesso! (Simulação de demonstração)')} className="w-full bg-rose-600 hover:bg-rose-700 text-white font-bold py-3.5 rounded-xl transition">
-                      Enviar Mensagem
-                    </button>
+
+                  <div className="lg:col-span-2 bg-white p-8 sm:p-12 rounded-3xl border border-rose-100 shadow-sm">
+
+                    <h2 className="font-serif text-2xl font-bold text-gray-900">
+                      Envie uma mensagem
+                    </h2>
+
+                    <p className="text-gray-500 text-sm mt-1 mb-8">
+                      *(Simulação de formulário para portfólio)
+                    </p>
+
+
+                    <form
+                      className="space-y-6"
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        alert('Mensagem enviada com sucesso! (Simulação)');
+                        e.target.reset();
+                      }}
+                    >
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+
+                        <input
+                          type="text"
+                          required
+                          className="w-full bg-gray-50 border border-gray-200 rounded-xl p-4 text-sm outline-none focus:ring-2 focus:ring-rose-400"
+                          placeholder="Seu Nome"
+                        />
+
+                        <input
+                          type="email"
+                          required
+                          className="w-full bg-gray-50 border border-gray-200 rounded-xl p-4 text-sm outline-none focus:ring-2 focus:ring-rose-400"
+                          placeholder="Seu E-mail"
+                        />
+
+                      </div>
+
+
+                      <textarea
+                        rows="5"
+                        required
+                        className="w-full bg-gray-50 border border-gray-200 rounded-xl p-4 text-sm outline-none focus:ring-2 focus:ring-rose-400 resize-none"
+                        placeholder="Como podemos te ajudar?"
+                      ></textarea>
+
+
+                      <button
+                        type="submit"
+                        className="w-full sm:w-auto bg-rose-600 hover:bg-rose-700 text-white font-bold py-4 px-10 rounded-xl shadow-lg"
+                      >
+                        Enviar Mensagem
+                      </button>
+
+                    </form>
+
                   </div>
+
                 </div>
+
               </div>
+
             )}
+
           </main>
 
-          {/* FOOTER */}
-          <footer className="bg-gray-900 text-gray-300 py-12 border-t border-gray-800">
-            <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8 mb-8 text-center md:text-left">
-              <div>
-                <span className="font-serif text-2xl font-bold text-white">Amor<span className="text-rose-500">emPar</span></span>
-                <p className="text-sm text-gray-400 mt-2">Projeto conceitual desenvolvido para demonstração de portfólio.</p>
+
+          {/* =====================================================
+              FOOTER
+          ===================================================== */}
+
+          <footer className="bg-gray-900 text-gray-300 py-16 border-t border-gray-800">
+
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-12 mb-12 text-center md:text-left">
+
+              <div className="space-y-4">
+
+                <span className="font-serif text-3xl font-bold text-white">
+                  Amor<span className="text-rose-500">emPar</span>
+                </span>
+
+                <p className="text-sm text-gray-400 leading-relaxed max-w-xs mx-auto md:mx-0">
+                  Projeto conceitual desenvolvido para demonstração de portfólio. Nenhuma transação real é realizada.
+                </p>
+
               </div>
+
+
               <div>
-                <h4 className="font-bold text-white mb-3">Links Rápidos</h4>
-                <div className="flex flex-col space-y-2 text-sm">
-                  <button onClick={() => navigate('/')} className="hover:text-rose-400 text-left">Início</button>
-                  <button onClick={() => navigate('/sobre')} className="hover:text-rose-400 text-left">Sobre Nós</button>
-                  <button onClick={() => navigate('/servicos')} className="hover:text-rose-400 text-left">Coleção</button>
-                  <button onClick={() => navigate('/contato')} className="hover:text-rose-400 text-left">Contato</button>
+
+                <h4 className="font-bold text-white mb-6 uppercase tracking-widest text-sm">
+                  Navegação
+                </h4>
+
+                <div className="flex flex-col space-y-3 text-sm font-medium">
+
+                  {[
+                    '/',
+                    '/sobre',
+                    '/servicos',
+                    '/contato'
+                  ].map(path => {
+
+                    const labels = {
+                      '/': 'Página Inicial',
+                      '/sobre': 'Nossa História',
+                      '/servicos': 'Catálogo de Presentes',
+                      '/contato': 'Fale Conosco'
+                    };
+
+                    return (
+
+                      <button
+                        key={path}
+                        onClick={() => navigate(path)}
+                        className="hover:text-rose-400 text-gray-400 transition-colors text-left w-fit mx-auto md:mx-0"
+                      >
+                        {labels[path]}
+                      </button>
+
+                    );
+
+                  })}
+
                 </div>
+
               </div>
+
+
               <div>
-                <h4 className="font-bold text-white mb-3">Redes Sociais (Demo)</h4>
-                <div className="flex justify-center md:justify-start space-x-4">
-                  <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="hover:text-emerald-400 text-sm font-semibold">WhatsApp</a>
-                  <span>•</span>
-                  <a href={DEMO_CONFIG.instagramUrl} target="_blank" rel="noopener noreferrer" className="hover:text-rose-400 text-sm font-semibold">Instagram</a>
+
+                <h4 className="font-bold text-white mb-6 uppercase tracking-widest text-sm">
+                  Redes Demo
+                </h4>
+
+                <div className="flex justify-center md:justify-start space-x-6">
+
+                  <a
+                    href={whatsappUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-gray-400 hover:text-emerald-400 font-semibold"
+                  >
+                    WhatsApp
+                  </a>
+
+                  <a
+                    href={DEMO_CONFIG.instagramUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-gray-400 hover:text-rose-400 font-semibold"
+                  >
+                    Instagram
+                  </a>
+
                 </div>
+
               </div>
+
             </div>
-            <div className="text-center pt-8 border-t border-gray-800 text-xs text-gray-500">
-              &copy; 2026 Amor em Par - Todos os direitos reservados. Site de demonstração para portfólio.
+
+
+            <div className="text-center pt-8 border-t border-gray-800 text-xs text-gray-500 font-medium">
+
+              &copy; 2026 Amor em Par - Todos os direitos reservados.
+              Site de demonstração para portfólio.
+
             </div>
+
           </footer>
 
-          {/* MODAL CARRINHO */}
+
+          {/* =====================================================
+              CARRINHO
+          ===================================================== */}
+
           {isCartOpen && (
-            <div className="fixed inset-0 z-50 flex justify-end bg-black/50 backdrop-blur-xs">
-              <div className="w-full max-w-md bg-white h-full p-6 flex flex-col justify-between shadow-2xl">
-                <div>
-                  <div className="flex justify-between items-center mb-6 pb-4 border-b">
-                    <h3 className="font-serif text-xl font-bold">Seu Carrinho</h3>
-                    <button onClick={() => setIsCartOpen(false)} className="text-gray-500 hover:text-black font-bold text-xl">✕</button>
-                  </div>
-                  {cart.length === 0 ? (
-                    <p className="text-gray-500 text-center py-10">Seu carrinho está vazio.</p>
-                  ) : (
-                    <div className="space-y-4 max-h-[60vh] overflow-y-auto">
-                      {cart.map(item => (
-                        <div key={item.id} className="flex items-center justify-between border-b pb-3">
-                          <div>
-                            <h4 className="font-bold text-sm text-gray-900">{item.title}</h4>
-                            <span className="text-xs text-gray-500">Qtd: {item.quantity}</span>
-                          </div>
-                          <span className="font-bold text-rose-600">R$ {(item.price * item.quantity).toFixed(2)}</span>
-                        </div>
-                      ))}
-                    </div>
-                  )}
+
+            <div className="fixed inset-0 z-50 flex justify-end">
+
+              <div
+                className="absolute inset-0 bg-gray-900/40 backdrop-blur-sm"
+                onClick={() => setIsCartOpen(false)}
+              ></div>
+
+
+              <div className="relative w-full max-w-md bg-white h-full flex flex-col shadow-2xl">
+
+
+                {/* HEADER */}
+
+                <div className="flex justify-between items-center p-6 border-b border-rose-100 bg-rose-50/50">
+
+                  <h3 className="font-serif text-xl font-bold text-gray-900">
+                    Seu Carrinho
+                  </h3>
+
+                  <button
+                    onClick={() => setIsCartOpen(false)}
+                    className="text-gray-500 hover:text-gray-900 bg-white p-2 rounded-full shadow-sm"
+                  >
+
+                    ✕
+
+                  </button>
+
                 </div>
-                {cart.length > 0 && (
-                  <div className="space-y-4 pt-4 border-t">
-                    <div className="flex justify-between font-bold text-lg">
-                      <span>Total:</span>
-                      <span className="text-rose-600">R$ {cartTotal.toFixed(2)}</span>
+
+
+                {/* ITENS */}
+
+                <div className="flex-1 overflow-y-auto p-6 space-y-6">
+
+                  {cart.length === 0 ? (
+
+                    <div className="text-center py-12">
+
+                      <p className="text-gray-500 font-medium">
+                        Seu carrinho está vazio.
+                      </p>
+
+                      <button
+                        onClick={() => {
+                          setIsCartOpen(false);
+                          navigate('/servicos');
+                        }}
+                        className="mt-4 text-sm font-bold text-rose-600 underline"
+                      >
+                        Ver produtos
+                      </button>
+
                     </div>
-                    <button onClick={() => { setIsCartOpen(false); alert('Pedido de demonstração simulado com sucesso!'); setCart([]); }} className="w-full bg-gray-900 hover:bg-black text-white py-3.5 rounded-xl font-bold transition">
+
+                  ) : (
+
+                    cart.map(item => (
+
+                      <div
+                        key={item.id}
+                        className="flex items-center gap-4 border border-rose-50 p-3 rounded-2xl shadow-sm bg-white"
+                      >
+
+                        <img
+                          src={item.image}
+                          alt={item.title}
+                          className="w-20 h-20 object-cover rounded-xl bg-gray-50"
+                          onError={(e) => {
+                            e.target.src = 'https://via.placeholder.com/100x100?text=Produto';
+                          }}
+                        />
+
+
+                        <div className="flex-1 min-w-0">
+
+                          <h4 className="font-bold text-sm text-gray-900 truncate">
+                            {item.title}
+                          </h4>
+
+                          <span className="font-bold text-rose-600 text-sm block mt-1">
+                            R$ {(item.price * item.quantity).toFixed(2).replace('.', ',')}
+                          </span>
+
+
+                          <div className="flex items-center mt-3 bg-gray-50 w-fit rounded-lg border border-gray-200">
+
+                            <button
+                              onClick={() => updateQuantity(item.id, -1)}
+                              className="w-8 h-8 flex items-center justify-center text-gray-600 hover:text-rose-600 font-bold"
+                            >
+                              −
+                            </button>
+
+                            <span className="text-sm font-bold w-6 text-center">
+                              {item.quantity}
+                            </span>
+
+                            <button
+                              onClick={() => updateQuantity(item.id, 1)}
+                              className="w-8 h-8 flex items-center justify-center text-gray-600 hover:text-rose-600 font-bold"
+                            >
+                              +
+                            </button>
+
+                          </div>
+
+                        </div>
+
+                      </div>
+
+                    ))
+
+                  )}
+
+                </div>
+
+
+                {/* FOOTER */}
+
+                {cart.length > 0 && (
+
+                  <div className="p-6 bg-gray-50 border-t border-gray-100">
+
+                    <div className="flex justify-between font-bold text-lg mb-6">
+
+                      <span>
+                        Total:
+                      </span>
+
+                      <span className="text-rose-600">
+                        R$ {cartTotal.toFixed(2).replace('.', ',')}
+                      </span>
+
+                    </div>
+
+
+                    <button
+                      onClick={() => {
+
+                        setIsCartOpen(false);
+
+                        alert(
+                          'Pedido de demonstração simulado com sucesso! (Nenhum valor real foi cobrado).'
+                        );
+
+                        setCart([]);
+
+                      }}
+                      className="w-full bg-gray-900 hover:bg-black text-white py-4 rounded-xl font-bold transition-colors"
+                    >
                       Finalizar Compra (Simulação)
                     </button>
+
                   </div>
+
                 )}
+
               </div>
+
             </div>
+
           )}
 
         </div>
+
       );
+
     }
 
-    const root = ReactDOM.createRoot(document.getElementById('root'));
+
+    /* =========================================================
+       INICIALIZAÇÃO
+    ========================================================= */
+
+    const root = ReactDOM.createRoot(
+      document.getElementById('root')
+    );
+
     root.render(<App />);
+
   </script>
+
 </body>
-</html>
+  </html>
